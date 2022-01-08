@@ -1,9 +1,10 @@
 import { Outlet, Link } from "react-router-dom";
 
+
 const Layout = () => {
   return (
     <>
-      <nav>
+      <nav className="App">
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -12,7 +13,10 @@ const Layout = () => {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/registration">Registration</Link>
+            <Link to="/registration/business">Зарегестрировать компанию</Link>
+          </li>
+          <li>
+            <Link to="/registration/default">Зарегестрироваться как пользователь</Link>
           </li>
         </ul>
       </nav>
