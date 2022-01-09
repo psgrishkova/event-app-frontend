@@ -1,16 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 
-
-
-function SubmitButton(){
-    return(
-        <div>
-            <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-            <p className="forgot-password text-right">
-                Already registered <a href="#">sign in?</a>
-            </p>
-        </div>
-    )
+export default class SubmitButton extends Component {
+  render() {
+    return (
+      <div>
+        <button type="submit" className="btn btn-primary btn-block">
+          Зарегистрировать
+        </button>
+      </div>
+    );
+  }
 }
-
-export default SubmitButton
