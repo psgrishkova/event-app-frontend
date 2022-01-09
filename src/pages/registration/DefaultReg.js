@@ -2,18 +2,14 @@ import React, { Component } from "react";
 import SubmitButton from "./SubmitButton";
 import Registration from "./Registration";
 
-export default class BusinessReg extends Component {
+export default class DefaultReg extends Component {
   render() {
     return (
       <form className="form">
         <Registration />
         <div className="form-group">
-          <label>Название компании</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Название компании"
-          />
+          <label>Имя пользователя</label>
+          <input type="text" className="form-control" placeholder="Имя" />
         </div>
 
         <div className="form-group">
@@ -22,10 +18,13 @@ export default class BusinessReg extends Component {
         </div>
 
         <div className="form-group">
-          <label>Адрес</label>
-          <input type="text" className="form-control" placeholder="Адрес" />
+          <label>Дата рождения</label>
+          <input
+            type="date"
+            className="form-control"
+            placeholder="День рождения"
+          />
         </div>
-
         <SubmitButton />
       </form>
     );
