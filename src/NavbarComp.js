@@ -31,7 +31,7 @@ class NavbarComp extends Component {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={"/registration/form/default"}
+                      to={"/registration/form/business"}
                     >
                       Зарегистрировать компанию
                     </Link>
@@ -39,7 +39,7 @@ class NavbarComp extends Component {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={"/registration/form/business"}
+                      to={"/registration/form/default"}
                     >
                       Зарегистрироваться как пользователь
                     </Link>

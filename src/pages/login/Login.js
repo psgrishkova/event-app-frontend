@@ -14,6 +14,7 @@ export default class Login extends Component {
       login: this.state.login,
       password: this.state.password
     });
+
     console.log(user);
     axios.post('http://localhost:8080/users/login', user, {
         headers: {
@@ -28,10 +29,12 @@ export default class Login extends Component {
       })
   }
 
-  handleChange = (event) => {
-    this.setState({ login: event.target.value, password: event.target.value });
-    console.log(this.state.login);
-    console.log(this.state.password);
+  handleChangeLogin = (event) => {
+    this.setState({ login: event.target.value});
+  };
+
+  handleChangePass = (event) => {
+    this.setState({ password: event.target.value});
   };
 
   render() {
@@ -46,7 +49,7 @@ export default class Login extends Component {
             className="form-control"
             name = "login"
             placeholder="Логин"
-            onChange={this.handleChange}
+            onChange={this.handleChangeLogin}
           />
         </div>
 
@@ -57,7 +60,7 @@ export default class Login extends Component {
             className="form-control"
             name = "login"
             placeholder="Пароль"
-            onChange={this.handleChange}
+            onChange={this.handleChangePass}
           />
         </div>
 
