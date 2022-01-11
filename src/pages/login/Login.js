@@ -55,7 +55,7 @@ export default class Login extends Component {
           <input
             type="password"
             className="form-control"
-            name = "login"
+            name = "password"
             placeholder="Пароль"
             onChange={this.handleChange}
           />
