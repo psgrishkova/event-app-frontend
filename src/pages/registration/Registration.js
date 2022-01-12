@@ -27,6 +27,16 @@ export default class Registration extends Component {
             placeholder="Повторите пароль"
           />
         </div>
+
+        <div className="form-group">
+          <label>Город</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Город"
+            name = ""
+          />
+        </div>
       </div>
     );
   }

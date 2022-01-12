@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-export default class DefaultReg extends Component {
+export default class BusinessReg extends Component {
   state = {
     login: '',
     password: '',
+    cityName: '',
     companyName: '',
     address: ''
   };
@@ -14,6 +15,7 @@ export default class DefaultReg extends Component {
     const user = JSON.stringify({
       login: this.state.login,
       password: this.state.password,
+      cityName: this.state.cityName,
       companyName: this.state.companyName,
       address: this.state.address
     });
@@ -22,14 +24,13 @@ export default class DefaultReg extends Component {
 
     axios.post('http://localhost:8080/users/register/business', user, {
         headers: {
-          // Overwrite Axios's automatically set Content-Type
           'Content-Type': 'application/json'
         }
       })
       .then(res=>{
         console.log(res);
         console.log(res.data);
-        window.location = "/retrieve" //This line of code will redirect you once the submission is succeed
+        window.location = "/login/form" //This line of code will redirect you once the submission is succeed
       })
   }
 
@@ -42,6 +43,12 @@ export default class DefaultReg extends Component {
   handleChangePass = (event) => {
     this.setState({
       password:event.target.value
+    })
+  };
+
+  handleChangeCityName = (event) => {
+    this.setState({
+      cityName:event.target.value
     })
   };
 
@@ -91,6 +98,18 @@ export default class DefaultReg extends Component {
             placeholder="Повторите пароль"
           />
         </div>
+
+        <div className="form-group">
+          <label>Город</label>
+          <input
+            type="cityName"
+            className="form-control"
+            name="cityName"
+            placeholder="Город"
+            onChange={this.handleChangeCityName}
+          />
+        </div>
+
         <div className="form-group">
           <label>Название компании</label>
           <input 

@@ -5,6 +5,7 @@ import Login from "./pages/login/Login";
 import BusinessReg from "./pages/registration/BusinessReg";
 import DefaultReg from "./pages/registration/DefaultReg";
 import NoPage from "./pages/NoPage";
+import WelcomePage from "./pages/WelcomePage";
 import "./App.css";
 class NavbarComp extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class NavbarComp extends Component {
                       className="nav-link"
                       to={"/registration/form/default"}
                     >
-                      Зарегистрироваться как пользователь
+                      Зарегистрировать пользователя
                     </Link>
                   </li>
                 </ul>
@@ -63,6 +64,9 @@ class NavbarComp extends Component {
               </Route>
               <Route path="/registration/form/business">
                 <BusinessReg />
+              </Route>
+              <Route path="/events">
+                <WelcomePage />
               </Route>
               <Route path="/*">
                 <NoPage />
