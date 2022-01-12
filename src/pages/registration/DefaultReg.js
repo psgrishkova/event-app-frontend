@@ -24,14 +24,13 @@ export default class DefaultReg extends Component {
 
     axios.post('http://localhost:8080/users/register/default', user, {
         headers: {
-          // Overwrite Axios's automatically set Content-Type
           'Content-Type': 'application/json'
         }
       })
       .then(res=>{
         console.log(res);
         console.log(res.data);
-        window.location = "/retrieve" //This line of code will redirect you once the submission is succeed
+        window.location = "/login/form" //This line of code will redirect you once the submission is succeed
       })
   }
 

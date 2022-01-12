@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 export default class Login extends Component {
 
@@ -7,6 +8,7 @@ export default class Login extends Component {
       login: '',
       password: ''
     };
+    
 
   handleSubmit = event => {
     event.preventDefault();
@@ -25,7 +27,9 @@ export default class Login extends Component {
       .then(res=>{
         console.log(res);
         console.log(res.data);
-        window.location = "/retrieve" //This line of code will redirect you once the submission is succeed
+        const cookies = new Cookies();
+        cookies.set('token', res.data, { path: '/' });
+        window.location = "/events" 
       })
   }
 
