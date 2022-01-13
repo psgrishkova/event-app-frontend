@@ -5,7 +5,6 @@ export default class BusinessReg extends Component {
   state = {
     login: '',
     password: '',
-    cityName: '',
     companyName: '',
     address: ''
   };
@@ -15,7 +14,6 @@ export default class BusinessReg extends Component {
     const user = JSON.stringify({
       login: this.state.login,
       password: this.state.password,
-      cityName: this.state.cityName,
       companyName: this.state.companyName,
       address: this.state.address
     });
@@ -96,17 +94,6 @@ export default class BusinessReg extends Component {
             type="password"
             className="form-control"
             placeholder="Повторите пароль"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Город</label>
-          <input
-            type="cityName"
-            className="form-control"
-            name="cityName"
-            placeholder="Город"
-            onChange={this.handleChangeCityName}
           />
         </div>
 
