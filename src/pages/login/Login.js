@@ -26,10 +26,11 @@ export default class Login extends Component {
       })
       .then(res=>{
         console.log(res);
-        console.log(res.data);
-        const cookies = new Cookies();
-        cookies.set('token', res.data, { path: '/' });
-        window.location = "/events" 
+        console.log("Bearer "+res.data);
+        //const cookies = new Cookies();
+        //cookies.set('token', "Bearer "+res.data, { path: '/' });
+        localStorage.setItem('token', res.data);
+        window.location = "/profile" 
       })
   }
 
