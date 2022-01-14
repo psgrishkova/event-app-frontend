@@ -6,6 +6,7 @@ import BusinessReg from "./pages/registration/BusinessReg";
 import DefaultReg from "./pages/registration/DefaultReg";
 import NoPage from "./pages/NoPage";
 import WelcomePage from "./pages/WelcomePage";
+import ViewProfile from "./pages/profile/ViewProfile";
 import "./App.css";
 class NavbarComp extends Component {
   constructor(props) {
@@ -68,6 +69,11 @@ class NavbarComp extends Component {
               <Route path="/events">
                 <WelcomePage />
               </Route>
+
+              <Route path="/profile">
+                <ViewProfile />
+              </Route>
+
               <Route path="/*">
                 <NoPage />
               </Route>
