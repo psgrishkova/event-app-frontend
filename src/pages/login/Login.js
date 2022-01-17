@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Cookies from 'universal-cookie';
+import api from "../../API";
 
 export default class Login extends Component {
 
-    state = {
-      login: '',
-      password: ''
-    };
-    
+  state = {
+    login: '',
+    password: ''
+  };
+
 
   handleSubmit = event => {
     event.preventDefault();
@@ -18,33 +18,42 @@ export default class Login extends Component {
     });
 
     console.log(user);
-    axios.post('http://localhost:8080/users/login', user, {
-        headers: {
-          // Overwrite Axios's automatically set Content-Type
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(res=>{
-        console.log(res);
-        console.log("Bearer "+res.data);
-        //const cookies = new Cookies();
-        //cookies.set('token', "Bearer "+res.data, { path: '/' });
-        localStorage.setItem('token', res.data);
-        window.location = "/profile" 
+    /*
+        axios.post('http://localhost:8080/users/login', user, {
+            headers: {
+              // Overwrite Axios's automatically set Content-Type
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(res=>{
+            console.log(res);
+            console.log("Bearer "+res.data);
+            localStorage.setItem('token', res.data);
+            window.location = "/profile" 
+          })
+          */
+    localStorage.clear();
+    api.post('users/login', user)
+      .then(response => {
+        localStorage.setItem('token', 'Bearer ' + response.data.token);
+        localStorage.setItem('role',response.data.role);
+        console.log(response.data.role);
+        console.log(response.data.token);
+        window.location = "/profile";
       })
   }
 
   handleChangeLogin = (event) => {
-    this.setState({ login: event.target.value});
+    this.setState({ login: event.target.value });
   };
 
   handleChangePass = (event) => {
-    this.setState({ password: event.target.value});
+    this.setState({ password: event.target.value });
   };
 
   render() {
     return (
-      <form className="form" onSubmit = { this.handleSubmit }>
+      <form className="form" onSubmit={this.handleSubmit}>
         <h3>Войти</h3>
 
         <div className="form-group">
@@ -52,7 +61,7 @@ export default class Login extends Component {
           <input
             type="text"
             className="form-control"
-            name = "login"
+            name="login"
             placeholder="Логин"
             onChange={this.handleChangeLogin}
           />
@@ -63,7 +72,7 @@ export default class Login extends Component {
           <input
             type="password"
             className="form-control"
-            name = "password"
+            name="password"
             placeholder="Пароль"
             onChange={this.handleChangePass}
           />
