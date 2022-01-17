@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import api from "../../API";
 import axios from "axios";
 
 export default class DefaultReg extends Component {
@@ -21,17 +22,13 @@ export default class DefaultReg extends Component {
     });
 
     console.log(user);
-
-    axios.post('http://localhost:8080/users/register/default', user, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(res=>{
-        console.log(res);
-        console.log(res.data);
-        window.location = "/login/form" //This line of code will redirect you once the submission is succeed
-      })
+    
+    api.post('users/register/default',user)
+    .then(res=>{
+      console.log(res);
+      console.log(res.data);
+      window.location = "/login/form" //This line of code will redirect you once the submission is succeed
+    })
   }
 
   handleChangeLogin = (event) => {

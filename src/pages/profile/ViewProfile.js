@@ -1,101 +1,38 @@
-import React, { Component, useState } from "react";
-import axios from "axios";
-
+import React, { Component } from "react";
+import api from "../../API";
+import DefProfile from "./DefProfile";
+import BusProfile from "./BusProfile";
 
 export default class ViewProfile extends Component {
-    
-    state = {
-        username: '',
-        role: '',
-        cityName: '',
-        bday: ''
-      };
 
-    handleSubmit = event => {
-        const token='Bearer ' + localStorage.getItem('token');
-        console.log(token);
-        event.preventDefault();
-        axios.get('http://localhost:8080/users/profile/default',{
-            headers: {
-                'Authorization': token
-              }
-            })
-        .then(resp => {
-        console.log(resp.data);
-        this.setState({
-            username : resp.data.username,
-            role : resp.data.role,
-            cityName : resp.data.cityName,
-            bday : resp.data.bday
-        })
-        console.log(this.state)
-      })
+    componentDidMount() {
+        console.log('Component did mount!')
+        api.defaults.headers.Authorization = localStorage.getItem('token');
+        console.log(api.defaults.headers.Authorization);
+        if (localStorage.getItem('role') === 'USER_BUSINESS') {
+            console.log('user is business')
+            api.get('users/profile/business')
+                .then(resp => {
+                    this.setState(resp.data);
+                    console.log(this.state);
+                })
+        }
+        else if (localStorage.getItem('role') === 'USER_DEFAULT') {
+            console.log('user is default')
+            api.get('users/profile/default')
+                .then(resp => {
+                    this.setState(resp.data);
+                    console.log(this.state);
+                })
+        }
     }
-
-    componentDidMount() { console.log('Component did mount!') 
-    const token='Bearer ' + localStorage.getItem('token');
-    console.log(token);
-    //event.preventDefault();
-    axios.get('http://localhost:8080/users/profile/default',{
-        headers: {
-            'Authorization': token
-          }
-        })
-    .then(resp => {
-    console.log(resp.data);
-    this.setState({
-        username : resp.data.username,
-        role : resp.data.role,
-        cityName : resp.data.cityName,
-        bday : resp.data.bday
-    })
-    console.log(this.state)
-  })
-    }
-
-    
 
     render() {
-        return (
-            <form className="form" onSubmit={this.handleSubmit}>
-                <h3>Профиль</h3>
-
-                <div className="form-group">
-                <label>Имя пользователя</label>
-                <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Имя" 
-                    name="username"
-                    value={this.state.username}
-                />
-                </div>
-
-                <div className="form-group">
-                <label>Город</label>
-                <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Город" 
-                    name="cityName"
-                    value={this.state.cityName}
-                />
-                </div>
-
-                <div className="form-group">
-                <label>Дата рождения</label>
-                <input
-                    type="date"
-                    className="form-control"
-                    placeholder="День рождения"
-                    name="bDay"
-                    value={this.state.bday}
-                />
-                </div>
-                <div>
-                <button type="submit" className="btn btn-primary btn-block">?Сохранить изменения?</button>
-                </div>
-            </form >
-        )
+        if(this.state!=null){
+        if (localStorage.getItem('role') === 'USER_DEFAULT')
+            return <DefProfile value={this.state} />
+        else if (localStorage.getItem('role') === 'USER_BUSINESS')
+            return <BusProfile value={this.state}/>
+        }else return <p>Error</p>
     }
 }

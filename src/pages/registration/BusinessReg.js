@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import api from "../../API";
 
 export default class BusinessReg extends Component {
   state = {
@@ -19,17 +19,12 @@ export default class BusinessReg extends Component {
     });
 
     console.log(user);
+      api.post('users/register/business', user)
+      .then ( response => {
+        console.log(response);
+        window.location = "/login/form"
+      })
 
-    axios.post('http://localhost:8080/users/register/business', user, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(res=>{
-        console.log(res);
-        console.log(res.data);
-        window.location = "/login/form" //This line of code will redirect you once the submission is succeed
-      })
   }
 
   handleChangeLogin = (event) => {
