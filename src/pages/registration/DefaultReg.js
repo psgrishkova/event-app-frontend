@@ -1,138 +1,159 @@
-import React, { Component } from "react";
-import api from "../../API";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import api from "../../newApi";
 
-export default class DefaultReg extends Component {
-  state = {
-    login: '',
-    password: '',
-    cityName: '',
-    username: '',
-    bDay: ''
-  };
+function DefaultReg() {
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [cityName, setCityName] = useState('');
+  const [username, setUsername] = useState('');
+  const [bDay, setbDay] = useState('');
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const user = JSON.stringify({
-      login: this.state.login,
-      password: this.state.password,
-      cityName: this.state.cityName,
-      username: this.state.username,
-      bDay: this.state.bDay
+  const [secPass, setSecPass] = useState('');
+  const [secPassDirty, setSecPassDirty] = useState(false);
+  const [passError, setPassError] = useState('Пароли должны совпадать');
+  const [formValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    if (passError) {
+      setFormValid(false);
+    }
+    else {
+      setFormValid(true);
+    }
+  }, [passError])
+
+  function createJSON() {
+    return JSON.stringify({
+      login: login,
+      password: password,
+      cityName: cityName,
+      username: username,
+      bDay: bDay
     });
-
-    console.log(user);
-    
-    api.post('users/register/default',user)
-    .then(res=>{
-      console.log(res);
-      console.log(res.data);
-      window.location = "/login/form" //This line of code will redirect you once the submission is succeed
-    })
   }
 
-  handleChangeLogin = (event) => {
-    this.setState({
-      login:event.target.value
-    })
+  async function request(user) {
+    await api.endpoints.defaultRegistration(user);
+    window.location = "/login/form";
   };
 
-  handleChangePass = (event) => {
-    this.setState({
-      password:event.target.value
-    })
+  async function handleSubmit(event) {
+    localStorage.clear();
+    event.preventDefault();
+
+    request(createJSON());
+  }
+
+  const handleChangeLogin = (e) => {
+    setLogin(e.target.value);
   };
 
-  handleChangeCityName = (event) => {
-    this.setState({
-      cityName:event.target.value
-    })
+  const handleChangePass = (e) => {
+    setPassword(e.target.value);
   };
 
-  handleChangeUsername = (event) => {
-    this.setState({
-      username:event.target.value
-    })
+  const handleChangeCityName = (e) => {
+    setCityName(e.target.value);
   };
 
-  handleChangebDay = (event) => {
-    this.setState({
-      bDay:event.target.value
-    })
+  const handleChangeUsername = (e) => {
+    setUsername(e.target.value);
   };
 
-  render() {
-    return (
-      <form className="form" onSubmit={this.handleSubmit}>
-        <h3>Регистрация</h3>
-        <div className="form-group">
-          <label>Логин</label>
-          <input 
-          type="text" 
-          className="form-control" 
-          placeholder="Логин" 
+  const handleChangebDay = (e) => {
+    setbDay(e.target.value);
+  };
+
+  const handleChangeSecPass = (e) => {
+    setSecPass(e.target.value);
+    if (e.target.value != password)
+      setPassError('Пароли должны совпадать');
+    else setPassError('');
+  }
+
+  const blurHandler = (e) => {
+    setSecPassDirty(true)
+  }
+
+  return (
+    <form className="form" onSubmit={handleSubmit}>
+      <h3>Регистрация</h3>
+      <div className="form-group">
+        <label>Логин</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Логин"
           name="login"
-          onChange={this.handleChangeLogin}  
+          onChange={e => handleChangeLogin(e)}
         />
-        </div>
+      </div>
 
-        <div className="form-group">
-          <label>Пароль</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Пароль"
-            name="password"
-            onChange={this.handleChangePass}
-          />
-        </div>
+      <div className="form-group">
+        <label>Пароль</label>
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Пароль"
+          name="password"
+          onChange={e => handleChangePass(e)}
+        />
+      </div>
 
-        <div className="form-group">
-          <label>Повторите пароль</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Повторите пароль"
-          />
-        </div>
-        <div className="form-group">
-          <label>Имя пользователя</label>
-          <input 
-            type="text" 
-            className="form-control" 
-            placeholder="Имя" 
-            name="username"
-            onChange={this.handleChangeUsername}
-          />
-        </div>
+      <div className="form-group">
+        <label>Повторите пароль</label>
+        {(secPassDirty && passError) && <div style={{ color: 'red', fontSize: '10pt' }}>{passError}</div>}
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Повторите пароль"
+          value={secPass}
+          onChange={handleChangeSecPass}
+          onBlur={e => blurHandler(e)}
+          name="secPass"
+        />
+      </div>
+      <div className="form-group">
+        <label>Имя пользователя</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Имя"
+          name="username"
+          onChange={e => handleChangeUsername(e)}
+        />
+      </div>
 
-        <div className="form-group">
-          <label>Город</label>
-          <input 
-            type="text" 
-            className="form-control" 
-            placeholder="Город" 
-            name="cityName"
-            onChange={this.handleChangeCityName}
-          />
-        </div>
+      <div className="form-group">
+        <label>Город</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Город"
+          name="cityName"
+          onChange={e => handleChangeCityName(e)}
+        />
+      </div>
 
-        <div className="form-group">
-          <label>Дата рождения</label>
-          <input
-            type="date"
-            className="form-control"
-            placeholder="День рождения"
-            name="bDay"
-            onChange={this.handleChangebDay}
-          />
-        </div>
-        <div>
-        <button type="submit" className="btn btn-primary btn-block">
+      <div className="form-group">
+        <label>Дата рождения</label>
+        <input
+          type="date"
+          className="form-control"
+          placeholder="День рождения"
+          name="bDay"
+          onChange={e => handleChangebDay(e)}
+        />
+      </div>
+      <div>
+        
+        <button disabled={!formValid} type="submit" className="btn btn-primary btn-block">
           Зарегистрировать
         </button>
       </div>
-      </form>
-    );
-  }
+    </form>
+  );
 }
+
+
+export default DefaultReg;

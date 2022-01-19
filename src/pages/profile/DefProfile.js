@@ -1,6 +1,7 @@
 import React from "react"
 
-export default function DefProfile(user) {
+export default function DefProfile() {
+    const user = JSON.parse(localStorage.getItem('user'));
     console.log(user)
     return (
         <form className="form">
@@ -13,7 +14,7 @@ export default function DefProfile(user) {
                     className="form-control"
                     placeholder="Имя"
                     name="username"
-                    value={user.value.username}
+                    value={user.username}
                 />
             </div>
 
@@ -24,7 +25,7 @@ export default function DefProfile(user) {
                     className="form-control"
                     placeholder="Город"
                     name="cityName"
-                    value={user.value.cityName}
+                    value={user.cityName}
                 />
             </div>
 
@@ -35,7 +36,7 @@ export default function DefProfile(user) {
                     className="form-control"
                     placeholder="День рождения"
                     name="bDay"
-                    value={user.value.bday}
+                    value={user.bday}
                 />
             </div>
             <div>
