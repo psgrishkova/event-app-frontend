@@ -1,6 +1,7 @@
 import React from "react"
 
-export default function BusProfile(user){
+export default function BusProfile(){
+    const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
     return (
         <form className="form">
@@ -13,7 +14,7 @@ export default function BusProfile(user){
                     className="form-control"
                     placeholder="Название компании"
                     name="companyName"
-                    value={user.value.companyName}
+                    value={user.companyName}
                 />
             </div>
 
@@ -24,7 +25,7 @@ export default function BusProfile(user){
                     className="form-control"
                     placeholder="Адрес"
                     name="address"
-                    value={user.value.address}
+                    value={user.address}
                 />
             </div>
             <div>

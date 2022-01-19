@@ -1,65 +1,76 @@
-import React, { Component } from "react";
-import api from "../../API";
+import React, {useState, useEffect} from "react";
+import api from "../../newApi";
 
-export default class BusinessReg extends Component {
-  state = {
-    login: '',
-    password: '',
-    companyName: '',
-    address: ''
-  };
+function BusinessReg() {
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [address, setAddress] = useState('');
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const user = JSON.stringify({
-      login: this.state.login,
-      password: this.state.password,
-      companyName: this.state.companyName,
-      address: this.state.address
-    });
+  const [secPass, setSecPass] = useState('');
+  const [secPassDirty, setSecPassDirty] = useState(false);
+  const [passError, setPassError] = useState('Пароли должны совпадать');
+  const [formValid, setFormValid] = useState(false);
 
-    console.log(user);
-      api.post('users/register/business', user)
-      .then ( response => {
-        console.log(response);
-        window.location = "/login/form"
-      })
+  useEffect(() => {
+    if (passError) {
+      setFormValid(false);
+    }
+    else {
+      setFormValid(true);
+    }
+  }, [passError])
 
+  function createJSON(){
+      return JSON.stringify({
+        login: login,
+        password: password,
+        companyName: companyName,
+        address: address
+      });
   }
 
-  handleChangeLogin = (event) => {
-    this.setState({
-      login:event.target.value
-    })
+  async function request(user) {
+    await api.endpoints.businessRegistration(user);
+    window.location = "/login/form";
   };
 
-  handleChangePass = (event) => {
-    this.setState({
-      password:event.target.value
-    })
+  async function handleSubmit(event) {
+    localStorage.clear();
+    event.preventDefault();
+
+    request(createJSON());
+  }
+
+  const handleChangeLogin = (e) => {
+    setLogin(e.target.value);
   };
 
-  handleChangeCityName = (event) => {
-    this.setState({
-      cityName:event.target.value
-    })
+  const handleChangePass = (e) => {
+    setPassword(e.target.value);
   };
 
-  handleChangeCompanyName = (event) => {
-    this.setState({
-      companyName:event.target.value
-    })
+  const handleChangeCompanyName = (e) => {
+    setCompanyName(e.target.value);
   };
 
-  handleChangeAddress = (event) => {
-    this.setState({
-      address:event.target.value
-    })
+  const handleChangeAddress = (e) => {
+    setAddress(e.target.value);
   };
 
-  render() {
+  const handleChangeSecPass = (e) => {
+    setSecPass(e.target.value);
+    if (e.target.value != password)
+      setPassError('Пароли должны совпадать');
+    else setPassError('');
+  }
+
+  const blurHandler = (e) => {
+    setSecPassDirty(true)
+  }
+
     return (
-      <form className="form" onSubmit={this.handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <h3>Регистрация</h3>
         <div className="form-group">
           <label>Логин</label>
@@ -68,7 +79,7 @@ export default class BusinessReg extends Component {
           className="form-control" 
           placeholder="Логин" 
           name="login"
-          onChange={this.handleChangeLogin}  
+          onChange={e => handleChangeLogin(e)}  
         />
         </div>
 
@@ -79,16 +90,21 @@ export default class BusinessReg extends Component {
             className="form-control"
             placeholder="Пароль"
             name="password"
-            onChange={this.handleChangePass}
+            onChange={e => handleChangePass(e)}
           />
         </div>
 
         <div className="form-group">
           <label>Повторите пароль</label>
+          {(secPassDirty && passError) && <div style={{ color: 'red', fontSize: '10pt' }}>{passError}</div>}
           <input
             type="password"
             className="form-control"
             placeholder="Повторите пароль"
+            value={secPass}
+          onChange={handleChangeSecPass}
+          onBlur={e => blurHandler(e)}
+          name="secPass"
           />
         </div>
 
@@ -99,7 +115,7 @@ export default class BusinessReg extends Component {
             className="form-control" 
             placeholder="Название компании" 
             name="companyName"
-            onChange={this.handleChangeCompanyName}
+            onChange={e => handleChangeCompanyName(e)}
           />
         </div>
 
@@ -110,15 +126,17 @@ export default class BusinessReg extends Component {
             className="form-control" 
             placeholder="Адрес" 
             name="address"
-            onChange={this.handleChangeAddress}
+            onChange={e => handleChangeAddress(e)}
           />
         </div>
         <div>
-        <button type="submit" className="btn btn-primary btn-block">
+        <button disabled={!formValid} type="submit" className="btn btn-primary btn-block">
           Зарегистрировать
         </button>
       </div>
       </form>
     );
   }
-}
+
+
+export default BusinessReg;
