@@ -5,10 +5,11 @@ import Login from "./pages/login/Login";
 import BusinessReg from "./pages/registration/BusinessReg";
 import DefaultReg from "./pages/registration/DefaultReg";
 import NoPage from "./pages/NoPage";
-import WelcomePage from "./pages/WelcomePage";
+
 import ViewProfile from "./pages/profile/ViewProfile";
 import CreateEvent from "./pages/events/CreateEvent";
 import "./App.css";
+
 class NavbarComp extends Component {
   constructor(props) {
     super(props);
@@ -18,13 +19,9 @@ class NavbarComp extends Component {
     return (
       <div className="App">
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-            <div className="container">
-              <Link className="navbar-brand">EventApp</Link>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarTogglerDemo02"
-              >
+          <nav className="navbar navbar-light bg-light">
+            <div className="">
+              <span className="navbar-brand">EventApp</span>
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                     <Link className="nav-link" to={"/login/form"}>
@@ -48,7 +45,6 @@ class NavbarComp extends Component {
                     </Link>
                   </li>
                 </ul>
-              </div>
             </div>
           </nav>
         </div>
@@ -75,10 +71,9 @@ class NavbarComp extends Component {
                 <ViewProfile />
               </Route>
 
-              <Route path="/welcomePage">
-                <WelcomePage />
+              <Route path="/main">
+              <MainPage />
               </Route>
-
               <Route path="/*">
                 <NoPage />
               </Route>
