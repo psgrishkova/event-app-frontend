@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {YMaps, Map, Placemark} from 'react-yandex-maps';
 import "../main/MainPage.css"
-import api from "../../services/api/endpoints"
-import axios from "axios";
+
 const YandexMap = function (props) {
     return (  
     <div>

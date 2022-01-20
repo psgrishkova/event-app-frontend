@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./MainPage.css";
 import EventList from "../events/EventList";
 import YandexMap from "../map/YandexMap";
-import api from "../../services/api/endpoints";
+import api from "../../newApi";
 import Pagination from "../Pagination";
 import EventForm from "../events/EventForm";
 

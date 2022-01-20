@@ -19,8 +19,8 @@ class NavbarComp extends Component {
     return (
       <div className="App">
         <div>
-          <nav className="navbar navbar-light bg-light">
-            <div className="">
+          <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+            <div className="container">
               <span className="navbar-brand">EventApp</span>
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
@@ -71,9 +71,6 @@ class NavbarComp extends Component {
                 <ViewProfile />
               </Route>
 
-              <Route path="/main">
-              <MainPage />
-              </Route>
               <Route path="/*">
                 <NoPage />
               </Route>
