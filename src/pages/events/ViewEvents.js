@@ -9,7 +9,7 @@ export default function ViewDefEvents() {
     useEffect(() => {
         console.log(role);
         const fetchData = async () => {
-            const events = await api.endpoints.getUserEvents();
+            const events = await api.endpoints.getSubscriptions();
             setRes(events.data);
             console.log(events.data)
             console.log(res);

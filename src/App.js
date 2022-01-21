@@ -7,7 +7,8 @@ import Login from "./pages/Login";
 import BusinessReg from "./pages/registration/BusinessReg";
 import DefaultReg from "./pages/registration/DefaultReg";
 import MainPage from "./pages/main/MainPage";
-import BusProfile from "./pages/profile/BusProfile";
+import ViewProfile from "./pages/profile/ViewProfile";
+import ViewEvents from "./pages/events/ViewEvents";
 export default function App() {
   return (
     <Router>
@@ -34,7 +35,11 @@ export default function App() {
         </Route>
         <Route path = "/profile">
         <AuthNavbar />
-        <BusProfile />
+        <ViewProfile />
+        </Route>
+        <Route path = "/events">
+        <AuthNavbar />
+        <ViewEvents />
         </Route>
       </Switch>
     </Router>
