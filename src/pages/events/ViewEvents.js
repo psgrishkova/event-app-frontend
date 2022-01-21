@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../newApi";
-
+import "./index.css";
 export default function ViewDefEvents() {
     const [res, setRes] = useState([]);
     const role = JSON.parse(localStorage.getItem('user')).role
@@ -37,6 +37,7 @@ export default function ViewDefEvents() {
     const [description, setdescription] = useState('');
     const [ageCensor, setageCensor] = useState('');
     const [startDate, setstartDate] = useState('');
+    const [address, setAddress] = useState('');
     const [endDate, setendDate] = useState('');
 
 
@@ -67,6 +68,15 @@ export default function ViewDefEvents() {
                         style={{ color: '#1c8ef9' }}
                         onChange={(e) => { setdescription(e.target.value) }}
                         value={description}
+                    />
+                    </p>
+                    <p>Адрес: <input
+                        name='address'
+                        type="text"
+                        className="form-control"
+                        style={{ color: '#1c8ef9' }}
+                        onChange={(e) => { setAddress(e.target.value) }}
+                        value={address}
                     /></p>
                     <p>Возрастной цензор: <input
                         name='ageCensor'
@@ -117,6 +127,7 @@ export default function ViewDefEvents() {
             description: description,
             startDate: startDate,
             endDate: endDate,
+            address: address,
             likeCounter: event.likeCounter,
             ageCensor: ageCensor,
         }
@@ -135,6 +146,7 @@ export default function ViewDefEvents() {
 
         seteventName(event.eventName);
         setdescription(event.description);
+        setAddress(event.address);
         setageCensor(event.ageCensor);
         setstartDate(event.startDate);
         setendDate(event.endDate);
@@ -143,6 +155,7 @@ export default function ViewDefEvents() {
     }
 
     return (
+        <div className="auth-inner">
         <div>
             <p style={{ color: '#1c8ef9' }}>Сохраненные события</p>
             {visible && editForm(event)}
@@ -153,6 +166,7 @@ export default function ViewDefEvents() {
                             <li key={item.id}>
                                 <p>Название события: {item.eventName}</p>
                                 <p>Описание: {item.description}</p>
+                                <p>Адрес: {item.address}</p>
                                 <p>Возрастной цензор: {item.ageCensor}</p>
                                 <p>Дата начала: {item.startDate}</p>
                                 <p>Дата окончания: {item.endDate}</p>
@@ -170,6 +184,7 @@ export default function ViewDefEvents() {
                     </div>
                 ))}
             </ul>
+        </div>
         </div>
     )
 }
