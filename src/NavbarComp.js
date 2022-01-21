@@ -8,7 +8,7 @@ import NoPage from "./pages/NoPage";
 
 import ViewProfile from "./pages/profile/ViewProfile";
 import CreateEvent from "./pages/events/CreateEvent";
-import DefEvents from "./pages/events/ViewDefEvents";
+import DefEvents from "./pages/events/ViewEvents";
 import "./App.css";
 
 class NavbarComp extends Component {
