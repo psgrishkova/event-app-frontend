@@ -33,7 +33,7 @@ function Login(){
       const {data:loginData} = await api.endpoints.login(userJSON);
       console.log(loginData);
 
-      localStorage.setItem('token',loginData.token);
+      localStorage.setItem('token', loginData.token);
       localStorage.setItem('user', JSON.stringify(loginData));
       
       window.location='/profile';

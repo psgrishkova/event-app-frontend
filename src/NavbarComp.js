@@ -8,6 +8,7 @@ import NoPage from "./pages/NoPage";
 
 import ViewProfile from "./pages/profile/ViewProfile";
 import CreateEvent from "./pages/events/CreateEvent";
+import DefEvents from "./pages/events/ViewDefEvents";
 import "./App.css";
 
 class NavbarComp extends Component {
@@ -44,6 +45,16 @@ class NavbarComp extends Component {
                       Зарегистрировать пользователя
                     </Link>
                   </li>
+
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      to={"/defEvents"}
+                    >
+                      Сохраненные события
+                    </Link>
+                  </li>
+
                 </ul>
             </div>
           </nav>
@@ -69,6 +80,10 @@ class NavbarComp extends Component {
 
               <Route path="/profile">
                 <ViewProfile />
+              </Route>
+
+              <Route path="/defEvents">
+                <DefEvents />
               </Route>
 
               <Route path="/*">
