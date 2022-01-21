@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import api from "../../newApi";
-
+import "./index.css";
 function BusinessReg() {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -70,6 +70,8 @@ function BusinessReg() {
   }
 
     return (
+      <div className="auth-wrapper">
+      <div className="auth-inner">
       <form className="form" onSubmit={handleSubmit}>
         <h3>Регистрация</h3>
         <div className="form-group">
@@ -135,6 +137,8 @@ function BusinessReg() {
         </button>
       </div>
       </form>
+      </div>
+      </div>
     );
   }
 

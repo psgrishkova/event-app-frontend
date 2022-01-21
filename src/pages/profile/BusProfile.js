@@ -1,9 +1,12 @@
 import React from "react"
-
+import "./index.css"
 export default function BusProfile(){
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
+    
     return (
+        <div className="auth-wrapper">
+        <div className="auth-inner">
         <form className="form">
             <h3>Профиль</h3>
 
@@ -29,8 +32,11 @@ export default function BusProfile(){
                 />
             </div>
             <div>
-                <button type="submit" className="btn btn-primary btn-block">?Сохранить изменения?</button>
+                <button type="submit" className="btn btn-primary btn-block">Сохранить изменения?</button>
+                <button type="submit" className="btn btn-primary">Отмена</button>
             </div>
         </form >
+        </div>
+        </div>
     )
 }

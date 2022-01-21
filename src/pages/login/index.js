@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../../newApi";
+import "./index.css";
 
-function Login(){
-  const[login,setLogin] = useState('');
+function Login() {
+  const[login, setLogin] = useState('');
   const[loginDirty, setLoginDirty] = useState(false);
   const[loginError, setLoginError] = useState('Логин не может быть пустым');
   const[pass,setPass] = useState('');
@@ -33,10 +34,10 @@ function Login(){
       const {data:loginData} = await api.endpoints.login(userJSON);
       console.log(loginData);
 
-      localStorage.setItem('token',loginData.token);
+      localStorage.setItem('token', loginData.token);
       localStorage.setItem('user', JSON.stringify(loginData));
       
-      window.location='/profile';
+      window.location='/home';
       } catch (e) {
         if(e.response.status===500)
           console.log("Введены некорректные данные или такого пользователя не существует");
@@ -77,6 +78,8 @@ function Login(){
   }
     
     return(
+      <div className="auth-wrapper">
+      <div className="auth-inner">
         <form className="form" onSubmit={handleSubmit}>
         <h3>Войти</h3>
 
@@ -116,6 +119,8 @@ function Login(){
           Войти
         </button>
       </form>
+      </div>
+      </div>
     );
 }
 

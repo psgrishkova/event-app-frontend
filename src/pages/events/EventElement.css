@@ -5,10 +5,9 @@
 }
 
 .event-element:hover {
-    background: #753BBD;
-    transform: scale(1.02);
+    transform: scale(1);
+    background: #1C8EF9;
     color: #FFFFFF;
-    border-bottom-color: #A754C4;
 }
 
 .event-element-name {
