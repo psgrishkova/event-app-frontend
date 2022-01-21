@@ -15,6 +15,7 @@ export default function BusProfile(){
                     placeholder="Название компании"
                     name="companyName"
                     value={user.companyName}
+                    required
                 />
             </div>
 
