@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Pagination = function ({eventsPerPage, totalEvents, paginate}) {
+    
     const pageNumbers = []
+    
     for(let i = 1; i <= Math.ceil(totalEvents / eventsPerPage); i++) {
         pageNumbers.push(i);
     }
@@ -12,7 +14,7 @@ const Pagination = function ({eventsPerPage, totalEvents, paginate}) {
                 {
                     pageNumbers.map(number => (
                         <li className='page-item' key={number}>
-                            <a href="!#" className="page-link" onClick={() => paginate(number)}>
+                            <a  className="page-link" onClick={() => paginate(number)}>
                                 {number}
                             </a>
                         </li>

@@ -1,9 +1,11 @@
 import React from "react"
-
+import "./index.css"
 export default function DefProfile() {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user)
     return (
+        <div className="auth-wrapper">
+        <div className="auth-inner">
         <form className="form">
             <h3>Профиль</h3>
 
@@ -43,6 +45,8 @@ export default function DefProfile() {
                 <button type="submit" className="btn btn-primary btn-block">?Сохранить изменения?</button>
             </div>
         </form >
+        </div>
+        </div>
     )
 
 }

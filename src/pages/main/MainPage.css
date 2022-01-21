@@ -1,84 +1,80 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    font-weight: 400;
-    font-family: 'Fira Sans', sans-serif;
-}
-
-
-.btn-info {
-    position: relative;
-    z-index: 2;
-    margin: 20px;
-}
-
-.show {
-    position: fixed;
-    z-index: 3;
-    margin: 20px;
-}
-.profile {
-    float: right;
-}
-.logout {
-    float: right;
-    
-}
-
 .event-list {
-    height: 600px;
+    height: 550px;
     overflow-y: scroll;
     border: 2px solid;
 }
 
-.sidebar-1 {
-    position: fixed;
-    display: inline-block;
-    padding: 20px;
-    padding-top: 60px;
+.show-sidebar {
+    left: 5px;
+    top: 65px;
+    position: fixed !important;
+    display: block;
     z-index: 3;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.show-sidebar-clicked {
+    left: 405px;
+    top: 65px;
+    position: fixed !important;
+    display: block;
+    z-index: 3;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.sidebar-1 {
     width: 400px;
     height: 100%;
-    background: linear-gradient(to left, #b3b3b3, #fff);
-    animation: openSideBar 200ms ease-in;
+    position: fixed;
+    top: 50px;
+    padding: 20px;
+    z-index: 3;
+    background: #ffffff;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
 .closed-sidebar-1 {
-    position: fixed;
-    display: inline-block;
+    margin-left: -240px !important;
     z-index: 3;
-    height: 800px;
-    animation: closeSideBar 200ms ease-in;
-    visibility: hidden;
-    background: linear-gradient(to left, #b3b3b3, #fff);
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
+.input-group {
+    margin-bottom: 20px;
+}
 .sidebar-2 {
-    position: fixed;
-    display: inline-block;
-    padding: 20px;
-    padding-top: 60px;
-    z-index: 3;
     width: 400px;
     height: 100%;
-    left: 400px;
-    background-color: #949494;
-    animation: openSideBar 200ms ease-in;
+    position: fixed;
+    top: 50px;
+    padding: 20px;
+    z-index: 3;
+    background: #ffffff;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
 .closed-sidebar-2 {
-    position: fixed;
-    display: inline-block;
+    margin-left: -240px !important;
     z-index: 3;
-    height: 800px;
-    animation: closeSideBar 200ms ease-in;
-    visibility: hidden;
-    background-color: #949494;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
 .maper {
@@ -90,18 +86,18 @@ body {
 
 @keyframes openSideBar {
     0%{
-        width: 0px;
+        left: 0px;
     }
     100%{
-        width: 400px;
+        left: 400px;
     }
 }
 
 @keyframes closeSideBar {
     0%{
-        width: 400px;
+        left: 400px;
     }
     100%{
-        width: 0px;
+        left: 0px;
     }
 }

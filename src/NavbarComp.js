@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import BusinessReg from "./pages/registration/BusinessReg";
 import DefaultReg from "./pages/registration/DefaultReg";
 import NoPage from "./pages/NoPage";
-
 import ViewProfile from "./pages/profile/ViewProfile";
 import CreateEvent from "./pages/events/CreateEvent";
 import DefEvents from "./pages/events/ViewEvents";
@@ -18,7 +17,7 @@ class NavbarComp extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div>
         <div>
           <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
@@ -59,6 +58,7 @@ class NavbarComp extends Component {
             </div>
           </nav>
         </div>
+
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Switch>
