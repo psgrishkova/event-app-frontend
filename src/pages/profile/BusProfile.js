@@ -32,10 +32,6 @@ export default function BusProfile(){
                     value={user.address}
                 />
             </div>
-            <div>
-                <button type="submit" className="btn btn-primary btn-block">Сохранить изменения?</button>
-                <button type="submit" className="btn btn-primary">Отмена</button>
-            </div>
         </form >
         </div>
         </div>

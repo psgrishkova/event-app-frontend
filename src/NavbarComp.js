@@ -74,7 +74,7 @@ class NavbarComp extends Component {
               <Route path="/registration/form/business">
                 <BusinessReg />
               </Route>
-              <Route path="/events">
+              <Route path="/createEvent">
                 <CreateEvent />
               </Route>
 

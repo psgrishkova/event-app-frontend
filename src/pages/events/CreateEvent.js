@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import api from "../../newApi";
 
 
 export default class ViewProfile extends Component {
@@ -10,32 +10,25 @@ export default class ViewProfile extends Component {
         startDate: '',
         endDate: '',
         likeCounter: '',
-        ageCensor: ''
+        ageCensor: '',
+        address : ''
     };
 
     handleSubmit = event => {
         event.preventDefault();
-        const token='Bearer ' + localStorage.getItem('token');
-        console.log(token);
         const newEvent = JSON.stringify({
             eventName: this.state.eventName,
             description:this.state.description,
             startDate: this.state.startDate,
             endDate: this.state.endDate,
             likeCounter: this.state.likeCounter,
-            ageCensor: this.state.ageCensor
+            ageCensor: this.state.ageCensor,
+            address : this.state.address
           });
           console.log(newEvent);
-          axios.post('http://localhost:8080/events/', newEvent, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-              }
-            })
-        .then(resp => {
-        console.log(resp.data);
-        console.log('Событие сохранено');
-      })
+          api.endpoints.createEvent(newEvent);
+          console.log("Событие сохранено")
+          window.location="/events";
     }
 
     handleChangeEventName = (event) => {
@@ -62,8 +55,13 @@ export default class ViewProfile extends Component {
          this.setState({ ageCensor: event.target.value});
     };
 
+    handleChangeAddress = (event) => {
+         this.setState({ address: event.target.value});
+    };
+
     render() {
         return (
+            <div className="auth-inner">
             <form className="form" onSubmit={this.handleSubmit}>
                 <h3>Создание события</h3>
 
@@ -75,6 +73,7 @@ export default class ViewProfile extends Component {
                     placeholder="Название события" 
                     name="eventName"
                     onChange={this.handleChangeEventName}
+                    required = {true}
                 />
                 </div>
 
@@ -86,6 +85,19 @@ export default class ViewProfile extends Component {
                     placeholder="Описание" 
                     name="description"
                     onChange={this.handleChangeDescription}
+                    required = {true}
+                />
+                </div>
+
+                <div className="form-group">
+                <label>Адрес</label>
+                <input 
+                    type="text" 
+                    className="form-control" 
+                    placeholder="Адрес" 
+                    name="Address"
+                    onChange={this.handleChangeAddress}
+                    required = {true}
                 />
                 </div>
 
@@ -97,6 +109,7 @@ export default class ViewProfile extends Component {
                     placeholder="Дата начала"
                     name="startDate"
                     onChange={this.handleChangeStartDate}
+                    required = {true}
                 />
                 </div>
 
@@ -108,6 +121,7 @@ export default class ViewProfile extends Component {
                     placeholder="Дата окончания"
                     name="endDate"
                     onChange={this.handleChangeEndDate}
+                    required = {true}
                 />
                 </div>
 
@@ -119,6 +133,7 @@ export default class ViewProfile extends Component {
                     placeholder="Количество сохранений" 
                     name="likeCounter"
                     onChange={this.handleChangeLikeCounter}
+                    required = {true}
                 />
                 </div>
 
@@ -130,6 +145,7 @@ export default class ViewProfile extends Component {
                     placeholder="Возрастной цензор" 
                     name="ageCensor"
                     onChange={this.handleChangeAgeCensor}
+                    required = {true}
                 />
                 </div>
 
@@ -137,6 +153,7 @@ export default class ViewProfile extends Component {
                 <button type="submit" className="btn btn-primary btn-block">Создать</button>
                 </div>
             </form >
+            </div>
         )
     }
 }
