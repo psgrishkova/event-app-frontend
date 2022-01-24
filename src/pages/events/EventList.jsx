@@ -8,7 +8,7 @@ const EventList = function ({events, loading, getEvent}) {
     return (  
         <div>
             <ul>
-            {events.map((item) => <li key = {item.id} onClick = {() => getEvent(item) }><EventElement item = {item} key = {item.id} /></li>)}
+            {events.map((item) => <li key = {item.id} onClick = {async () => getEvent(item) }><EventElement item = {item} key = {item.id} /></li>)}
             </ul>  
         </div>  
     );

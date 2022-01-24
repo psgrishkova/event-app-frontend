@@ -9,8 +9,7 @@ import DefaultReg from "./pages/registration/DefaultReg";
 import MainPage from "./pages/main/MainPage";
 import ViewProfile from "./pages/profile/ViewProfile";
 import ViewEvents from "./pages/events/ViewEvents";
-import AddEvent from "./pages/events/CreateEvent";
-import { createEvent } from "@testing-library/react";
+import CreateEvent from "./pages/events/CreateEvent";
 export default function App() {
   return (
     <Router>
@@ -49,10 +48,9 @@ export default function App() {
         <AuthNavbar />
         <ViewEvents />
         </Route>
-
-        <Route path = "/createEvent">
+        <Route path = "/create/event">
         <AuthNavbar />
-        <AddEvent />
+        <CreateEvent />
         </Route>
       </Switch>
     </Router>

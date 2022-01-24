@@ -1,8 +1,31 @@
-import React from "react"
+import React, {useState} from "react"
 import "./index.css"
-export default function BusProfile(){
+import api from "../../newApi/";
+
+export default function BusProfile() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
+
+    const [companyName, setCompanyName] = useState(user.companyName);
+    const [address, setAddress] = useState(user.address);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        user.companyName = companyName;
+        user.address = address;
+        localStorage.setItem("user", JSON.stringify(user));
+        api.endpoints.updateBusinessProfile(user);
+        alert('Профиль обновлен');
+    }
+    
+    const handleChangeCompanyName = (e) => {
+        setCompanyName(e.target.value);
+    }
+    
+    
+    const handleChangeAddress = (e) => {
+        setAddress(e.target.value);
+    }
+
     
     return (
         <div className="auth-wrapper">
@@ -17,7 +40,8 @@ export default function BusProfile(){
                     className="form-control"
                     placeholder="Название компании"
                     name="companyName"
-                    value={user.companyName}
+                    value={companyName}
+                    onChange={(e) => handleChangeCompanyName(e)}
                     required
                 />
             </div>
@@ -29,9 +53,15 @@ export default function BusProfile(){
                     className="form-control"
                     placeholder="Адрес"
                     name="address"
-                    value={user.address}
+                    value={address}
+                    onChange={(e) => handleChangeAddress(e)}
                 />
             </div>
+
+            <div>
+                <button type="submit" className="btn btn-primary btn-block" onClick={(e) => handleSubmit(e)}>Сохранить изменения</button>
+            </div>
+
         </form >
         </div>
         </div>
