@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 
 
-export default class ViewProfile extends Component {
+export default class CreateEvent extends Component {
     
     state = {
         eventName:'',
         description:'',
+        address:'',
         startDate: '',
         endDate: '',
         likeCounter: '',
@@ -20,6 +21,7 @@ export default class ViewProfile extends Component {
         const newEvent = JSON.stringify({
             eventName: this.state.eventName,
             description:this.state.description,
+            address: this.state.address,
             startDate: this.state.startDate,
             endDate: this.state.endDate,
             likeCounter: this.state.likeCounter,
@@ -34,6 +36,7 @@ export default class ViewProfile extends Component {
             })
         .then(resp => {
         console.log(resp.data);
+        alert('Событие сохранено');
         console.log('Событие сохранено');
       })
     }
@@ -50,6 +53,10 @@ export default class ViewProfile extends Component {
         this.setState({ startDate: event.target.value});
     };
     
+    handleChangeAddress = (event) => {
+        this.setState({ address: event.target.value});
+   };
+
      handleChangeEndDate = (event) => {
          this.setState({ endDate: event.target.value});
     };
@@ -64,6 +71,8 @@ export default class ViewProfile extends Component {
 
     render() {
         return (
+            <div className="auth-wrapper">
+            <div className="auth-inner">
             <form className="form" onSubmit={this.handleSubmit}>
                 <h3>Создание события</h3>
 
@@ -86,6 +95,17 @@ export default class ViewProfile extends Component {
                     placeholder="Описание" 
                     name="description"
                     onChange={this.handleChangeDescription}
+                />
+                </div>
+
+                <div className="form-group">
+                <label>Адрес</label>
+                <input 
+                    type="text" 
+                    className="form-control" 
+                    placeholder="Адрес" 
+                    name="address"
+                    onChange={this.handleChangeAddress}
                 />
                 </div>
 
@@ -137,6 +157,8 @@ export default class ViewProfile extends Component {
                 <button type="submit" className="btn btn-primary btn-block">Создать</button>
                 </div>
             </form >
+            </div>
+            </div>
         )
     }
 }

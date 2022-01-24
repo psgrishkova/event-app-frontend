@@ -18,7 +18,7 @@ export default function ViewDefEvents() {
     }, [])
 
     async function unsubscribeEvent(id) {
-        await api.endpoints.unsubscribeEvent(id);
+        await api.endpoints.unsubscribe(id);
         console.log('Пользователь отписался от события')
     };
 
@@ -27,10 +27,11 @@ export default function ViewDefEvents() {
         console.log('Событие удалено')
     };
 
+
     function handleSubmit(e, id) {
         console.log("Trying to delete event..." + id);
-        role === 'USER_DEFAULT' ? unsubscribeEvent(id) :
-            deleteEvent(id)
+        role === 'USER_DEFAULT' ? api.endpoints.unsubscribe(id) :
+            api.endpoints.deleteEvent(id)
     };
 
     const [eventName, seteventName] = useState('');
@@ -48,6 +49,7 @@ export default function ViewDefEvents() {
             <div style={{
                 position: 'absolute', borderRadius: '7px', padding: '10px', margin: '10px', color: 'white',
                 width: '50%',
+                align: 'center',
                 backgroundColor: 'rgba(0,0,0,0.8)',
                 zIndex: '10'
             }} >
@@ -139,7 +141,7 @@ export default function ViewDefEvents() {
     }
 
     const [event, setEvent] = useState();
-    function handleChangeButton(e, i) {
+     function handleChangeButton(e, i) {
         e.preventDefault();
         setEvent(i);
         console.log(event);
@@ -150,7 +152,7 @@ export default function ViewDefEvents() {
         setageCensor(event.ageCensor);
         setstartDate(event.startDate);
         setendDate(event.endDate);
-
+        
         setVisible(true);
     }
 

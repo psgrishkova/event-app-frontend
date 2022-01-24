@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { YMaps, Map, Placemark } from "react-yandex-maps";
 import "../main/MainPage.css";
 
-const YandexMap = function ({ placemarks, loading, getEventById }) {
-    if(loading) {
-      return(<h2>Loading...</h2>)
-    }
+const YandexMap = function ({ placemarks, getEventByAddress }) {
+
+  const [objects, setObjects] = useState(placemarks);
+
+  useEffect(() => {
+      setObjects(placemarks);
+  }, [placemarks])
+
   return (
     
     <div>
@@ -17,9 +21,9 @@ const YandexMap = function ({ placemarks, loading, getEventById }) {
             height={"100vh"}
           >
             <ul>
-              {placemarks.map((item) => (
-                <li key = {item.id} >
-                  <Placemark geometry={[item.y, item.x] } key = {item.id} onClick={() => getEventById(item.id)} />
+              {objects.map((item) => (
+                <li key = {item.id}>
+                  <Placemark geometry={[item.x, item.y] } key = {item.id} onClick={() => getEventByAddress(item.address)} />
                 </li>
               ))}
             </ul>

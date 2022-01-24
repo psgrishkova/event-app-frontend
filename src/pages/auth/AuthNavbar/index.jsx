@@ -4,6 +4,8 @@ import "./index.css";
 import {Link } from "react-router-dom";
 function AuthNavbar() {
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -20,6 +22,13 @@ function AuthNavbar() {
                 Профиль
               </Link>
             </li>
+            { user.role === "USER_BUSINESS" ? 
+            <li className="nav-item">
+              <Link className="nav-link" to={"/create/event"}>
+                Создать событие
+              </Link>
+            </li> : <></>
+            }
             <li className="nav-item">
               <Link className="nav-link" to={"/events"}>
                 Cобытия

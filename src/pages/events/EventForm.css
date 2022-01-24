@@ -1,0 +1,11 @@
+.btn-primary{ 
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.review {
+    border: 2px solid black;
+    width: 100%;
+    margin-bottom: 20px;
+    height: auto;
+    display: block;
+}

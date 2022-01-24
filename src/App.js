@@ -9,6 +9,7 @@ import DefaultReg from "./pages/registration/DefaultReg";
 import MainPage from "./pages/main/MainPage";
 import ViewProfile from "./pages/profile/ViewProfile";
 import ViewEvents from "./pages/events/ViewEvents";
+import CreateEvent from "./pages/events/CreateEvent";
 export default function App() {
   return (
     <Router>
@@ -40,6 +41,10 @@ export default function App() {
         <Route path = "/events">
         <AuthNavbar />
         <ViewEvents />
+        </Route>
+        <Route path = "/create/event">
+        <AuthNavbar />
+        <CreateEvent />
         </Route>
       </Switch>
     </Router>
