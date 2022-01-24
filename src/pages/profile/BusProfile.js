@@ -57,9 +57,11 @@ export default function BusProfile() {
                     onChange={(e) => handleChangeAddress(e)}
                 />
             </div>
+
             <div>
                 <button type="submit" className="btn btn-primary btn-block" onClick={(e) => handleSubmit(e)}>Сохранить изменения</button>
             </div>
+
         </form >
         </div>
         </div>

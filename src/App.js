@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import NotAuthNavbar from "./pages/auth/NotAuthNavbar"
 import AuthNavbar from "./pages/auth/AuthNavbar"
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import BusinessReg from "./pages/registration/BusinessReg";
 import DefaultReg from "./pages/registration/DefaultReg";
 import MainPage from "./pages/main/MainPage";
@@ -18,26 +18,32 @@ export default function App() {
         <NotAuthNavbar />
         <Login />
         </Route>
+
         <Route path = "/login">
         <NotAuthNavbar />
         <Login />
         </Route>
+
         <Route path = "/registration/default">
         <NotAuthNavbar />
         <DefaultReg />
         </Route>
+
         <Route path = "/registration/business">
         <NotAuthNavbar />
         <BusinessReg />
         </Route>
+
         <Route path = "/home">
         <AuthNavbar />
         <MainPage />
         </Route>
+
         <Route path = "/profile">
         <AuthNavbar />
         <ViewProfile />
         </Route>
+
         <Route path = "/events">
         <AuthNavbar />
         <ViewEvents />

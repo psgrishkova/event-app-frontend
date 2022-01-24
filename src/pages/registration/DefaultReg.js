@@ -88,6 +88,7 @@ function DefaultReg() {
           placeholder="Логин"
           name="login"
           onChange={e => handleChangeLogin(e)}
+          required = {true}
         />
       </div>
 
@@ -99,6 +100,7 @@ function DefaultReg() {
           placeholder="Пароль"
           name="password"
           onChange={e => handleChangePass(e)}
+          required = {true}
         />
       </div>
 
@@ -113,6 +115,7 @@ function DefaultReg() {
           onChange={handleChangeSecPass}
           onBlur={e => blurHandler(e)}
           name="secPass"
+          required = {true}
         />
       </div>
       <div className="form-group">
@@ -123,6 +126,7 @@ function DefaultReg() {
           placeholder="Имя"
           name="username"
           onChange={e => handleChangeUsername(e)}
+          required = {true}
         />
       </div>
 
@@ -134,6 +138,7 @@ function DefaultReg() {
           placeholder="Город"
           name="cityName"
           onChange={e => handleChangeCityName(e)}
+          required = {true}
         />
       </div>
 
@@ -145,6 +150,7 @@ function DefaultReg() {
           placeholder="День рождения"
           name="bDay"
           onChange={e => handleChangebDay(e)}
+          required = {true}
         />
       </div>
       <div>

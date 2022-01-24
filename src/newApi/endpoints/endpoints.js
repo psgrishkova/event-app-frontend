@@ -18,7 +18,8 @@ const endpoints = {
     getReviews: (eventId) => axios.get(`events/reviews/?eventId=${eventId}`),
     getUserEvents: () => axios.get("events/mine"),
     deleteEvent : (id) => axios.delete(`events/${id}`),
-    updateEvent : (data) => axios.put("events", data)
+    updateEvent : (data) => axios.put("events", data),
+    createEvent : (data) => axios.post("events", data)
 };
 
 export default endpoints;
