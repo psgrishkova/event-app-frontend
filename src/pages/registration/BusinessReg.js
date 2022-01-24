@@ -82,6 +82,7 @@ function BusinessReg() {
           placeholder="Логин" 
           name="login"
           onChange={e => handleChangeLogin(e)}  
+          required = {true}
         />
         </div>
 
@@ -93,6 +94,7 @@ function BusinessReg() {
             placeholder="Пароль"
             name="password"
             onChange={e => handleChangePass(e)}
+            required = {true}
           />
         </div>
 
@@ -107,6 +109,7 @@ function BusinessReg() {
           onChange={handleChangeSecPass}
           onBlur={e => blurHandler(e)}
           name="secPass"
+          required = {true}
           />
         </div>
 
@@ -118,6 +121,7 @@ function BusinessReg() {
             placeholder="Название компании" 
             name="companyName"
             onChange={e => handleChangeCompanyName(e)}
+            required = {true}
           />
         </div>
 
@@ -129,6 +133,7 @@ function BusinessReg() {
             placeholder="Адрес" 
             name="address"
             onChange={e => handleChangeAddress(e)}
+            required = {true}
           />
         </div>
         <div>

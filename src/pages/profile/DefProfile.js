@@ -1,12 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import "./index.css"
+
 export default function DefProfile() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
+
+    const [username, setusername] = useState(user.username);
+    const [cityName, setcityName] = useState(user.cityName);
+    const [bday, setbday] = useState(user.bday);
+
+    const handleSave = (e) => {
+        
+    }
+
     return (
         <div className="auth-wrapper">
         <div className="auth-inner">
-        <form className="form">
+        <form className="form" onSubmit={handleSave}>
             <h3>Профиль</h3>
 
             <div className="form-group">
@@ -16,7 +25,9 @@ export default function DefProfile() {
                     className="form-control"
                     placeholder="Имя"
                     name="username"
-                    value={user.username}
+                    value={username}
+                    required = {true}
+                    onChange={(e) => {setusername(e.target.value)}}
                 />
             </div>
 
@@ -27,7 +38,9 @@ export default function DefProfile() {
                     className="form-control"
                     placeholder="Город"
                     name="cityName"
-                    value={user.cityName}
+                    value={cityName}
+                    required = {true}
+                    onChange={(e) => {setcityName(e.target.value)}}
                 />
             </div>
 
@@ -38,15 +51,13 @@ export default function DefProfile() {
                     className="form-control"
                     placeholder="День рождения"
                     name="bDay"
-                    value={user.bday}
+                    value={bday}
+                    required = {true}
+                    onChange={(e) => {setbday(e.target.value)}}
                 />
-            </div>
-            <div>
-                <button type="submit" className="btn btn-primary btn-block">?Сохранить изменения?</button>
             </div>
         </form >
         </div>
         </div>
     )
-
 }

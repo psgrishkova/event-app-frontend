@@ -15,7 +15,8 @@ const endpoints = {
     getUserEvents: () => axios.get("events/mine"),
     unsubscribe: (eventId) => axios.delete(`events/unsubscribe/?eventId=${eventId}`),
     deleteEvent : (id) => axios.delete(`events${id}`),
-    updateEvent : (data) => axios.put("events", data)
+    updateEvent : (data) => axios.put("events", data),
+    createEvent : (data) => axios.post("events", data)
 };
 
 export default endpoints;
