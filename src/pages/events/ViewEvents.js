@@ -174,7 +174,7 @@ export default function ViewDefEvents() {
         <div className="auth-inner">
             <div>
                 <p style={{ color: '#1c8ef9' }}>События
-                    {role === 'USER_BUSINESS' && <button onClick={(e)=>{window.location='/createEvent';}} type="button" style={{ marginLeft: "100px" }} className="btn btn-primary">Создать событие</button>}
+                    
                 </p>
                 {visible && editForm(event)}
                 <ul>

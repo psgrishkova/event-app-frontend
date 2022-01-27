@@ -30,7 +30,7 @@ export default class CreateEvent extends Component {
           console.log(newEvent);
           api.endpoints.createEvent(newEvent);
           console.log("Событие сохранено")
-          window.location="/events";
+          //window.location="/events";
       alert('Событие сохранено');
 
     }

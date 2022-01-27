@@ -16,7 +16,7 @@ const YandexMap = function ({ placemarks, getEventByAddress }) {
       <YMaps>
         <div>
           <Map
-            defaultState={{ center: [55.75, 37.57], zoom: 12 }}
+            defaultState={{ center: [53.195878, 50.100202], zoom: 12 }}
             width={"100%"}
             height={"100vh"}
           >
