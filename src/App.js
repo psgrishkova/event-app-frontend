@@ -1,15 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import NotAuthNavbar from "./pages/auth/NotAuthNavbar"
-import AuthNavbar from "./pages/auth/AuthNavbar"
-import Login from "./pages/login";
-import BusinessReg from "./pages/registration/BusinessReg";
-import DefaultReg from "./pages/registration/DefaultReg";
-import MainPage from "./pages/main/MainPage";
-import ViewProfile from "./pages/profile/ViewProfile";
-import ViewEvents from "./pages/events/ViewEvents";
-import CreateEvent from "./pages/events/CreateEvent";
+import NotAuthNavbar from "./pages/Navbar/NotAuthNavbar/index"
+import AuthNavbar from "./pages/Navbar/AuthNavbar/index"
+import Login from "./pages/Login/index";
+import BusinessReg from "./pages/Registration/BusinessRegistration/index";
+import DefaultReg from "./pages/Registration/DefaultRegistration/index";
+import MainPage from "./pages/HomePage/index";
+import ViewProfile from "./pages/Profile/index";
+import ViewEvents from "./pages/EventPage/ViewEvents/index";
+import CreateEvent from "./pages/EventPage/CreateEvent/index";
+
 export default function App() {
   return (
     <Router>
