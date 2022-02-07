@@ -1,225 +1,249 @@
-import React, { useState, useEffect } from "react";
-import "./index.css";
+import React, {useState, useEffect} from "react";
 import EventList from "../EventPage/EventList";
 import YandexMap from "../Map";
 import api from "../../service/endpoints/endpoints";
 import Pagination from "../Pagination";
 import EventForm from "../EventPage/EventForm";
+import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const HomePage = function () {
-  const [events, setEvents] = useState([]);
-  const [subscriptions, setSubscriptions] = useState([]);
-  const [event, setEvent] = useState([]);
-  const [placemarks, setPlacemarks] = useState([]);
-  const [eventsPerPage] = useState(4);
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState("");
+    const [events, setEvents] = useState([]);
+    const [subscriptions, setSubscriptions] = useState([]);
+    const [points, setPoints] = useState([]);
+    const [event, setEvent] = useState({});
+    const [eventsPerPage] = useState(4);
+    const [open, setOpen] = useState(false);
+    const [showEvent, setShowEvent] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [eventNameText, setEventNameText] = useState("");
+    const [addressText, setAddressText] = useState("");
 
-  const handleClickSidebar = () => {
-    setOpen(!open);
-    setSelected(false);
-  };
 
-  const handleClickCloseSidebar = () => {
-    setSelected(!selected);
-  };
+    const handleClickSidebar = () => {
+        setOpen(!open);
+        setShowEvent(false);
+    };
 
-  const loadEvents = async () => {
-    const result = await api.getEvents();
-    setEvents(result.data);
-    return result.data;
-  };
+    const handleClickCloseSidebar = () => {
+        setShowEvent(!showEvent);
+    };
 
-  const loadSubscriptions = async (data) => {
-    const result = await api.getSubscriptions();
-    setSubscriptions(result.data);
-    const array = data;
-    array.forEach((item) => (item.subscribed = false));
-    for (let i = 0; i < result.data.length; i++) {
-      for (let j = 0; j < array.length; j++) {
-        if (result.data[i].id == array[j].id) {
-          array[j].subscribed = true;
+    const handleChangeSearchText = (e) => {
+        setEventNameText(e.target.value);
+    };
+
+    const handleChangeAddressText = (e) => {
+        setAddressText(e.target.value);
+    };
+
+    const loadEventsByDescription = async () => {
+        const result = await api.getEventsByName(eventNameText);
+        setEvents(result.data);
+        return result.data;
+    };
+
+    const loadSubscriptions = async () => {
+        const result = await api.getSubscriptions();
+        setSubscriptions(result.data);
+        return result.data;
+    };
+
+    const setPropertiesSubscribed = (events, subscriptions) => {
+        const result = events;
+        result.forEach((item) => (item.subscribed = false));
+        for (let i = 0; i < subscriptions.length; i++) {
+            for (let j = 0; j < result.length; j++) {
+                if (subscriptions[i].id == result[j].id) {
+                    result[j].subscribed = true;
+                }
+            }
         }
-      }
-    }
-    setEvents(array);
-  };
+        return result;
+    };
 
-  const drawPlacemarks = async (data) => {
-    const coords = [];
-    data.forEach(async (item) => {
-      const result = await api.getPlacemark(item.address);
-      const temp =
-        await result.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
-          .split(" ")
-          .reverse();
-      const coord = {
-        id: item.id,
-        address: item.address,
-        x: parseFloat(temp[0]),
-        y: parseFloat(temp[1]),
-      };
-      coords.push(coord);
-    });
-    console.log(coords);
-    return coords;
-  };
+    const drawPoints = async (events) => {
+        const result = [];
+        for (const item of events) {
+            const index = result.findIndex(i => i.address === item.address);
+            if (index != -1) {
+                result[index].count++;
+            } else {
+                let temp = await api.getPoint(item.address);
+                temp = temp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+                    .split(" ")
+                    .reverse();
+                const point = {
+                    id: item.id,
+                    count: 1,
+                    address: item.address,
+                    x: parseFloat(temp[0]),
+                    y: parseFloat(temp[1]),
+                };
+                result.push(point);
+            }
+        }
+        return result;
+    };
 
-  const handleClickSubscribe = async (event) => {
-    if (event.subscribed) {
-      event.likeCounter--;
-      await api.unsubscribe(event.id);
-    } else {
-      event.likeCounter++;
-      await api.subscribe(event.id);
-    }
-    event.subscribed = !event.subscribed;
-    const result = await api.getReviews(event.id);
-    event.reviews = result.data;
-    setEvent(event);
-    setSelected(false);
-    setSelected(true);
-  };
+    const handleClickSubscribe = async (event) => {
+        const newEvents = events;
+        const newEvent = {};
+        Object.assign(newEvent, event);
+        if (newEvent.subscribed) {
+            newEvent.likeCounter--;
+            await api.unsubscribe(newEvent.id);
+        } else {
+            newEvent.likeCounter++;
+            await api.subscribe(newEvent.id);
+        }
+        newEvent.reviews = await getReviewsById(event.id);
+        newEvent.subscribed = !newEvent.subscribed;
+        setEvent(newEvent);
+        const index = newEvents.findIndex(item => item.id === newEvent.id);
+        newEvents[index] = newEvent;
+        setEvents(newEvents);
+    };
 
-  const handleChangeSearchText = (e) => {
-    setSearchText(e.target.value);
-  };
+    const getEvent = async (event) => {
+        const result = await api.getReviews(event.id);
+        event.reviews = result.data.length != 0 ? result.data : null;
+        setEvent(event);
+        setOpen(true);
+        setShowEvent(true);
+    };
 
-  const getEvent = async (event) => {
-    const result = await api.getReviews(event.id);
-    event.reviews = result.data;
-    setEvent(event);
-    setOpen(true);
-    setSelected(true);
-  };
+    const handleClickAddReview = async (event, review) => {
+        const newEvent = {};
+        Object.assign(newEvent, event);
+        await api.addReview(newEvent.id, review);
+        newEvent.reviews = await getReviewsById(event.id);
+        setEvent(newEvent);
+    };
 
-  const handleClickAddReview = async (event, review) => {
-    await api.addReview(event.id, review);
-    const result = await api.getReviews(event.id);
-    event.reviews = result.data;
-    setEvent(event);
-    setSelected(false);
-    setSelected(true);
-  };
+    const getReviewsById = async (id) => {
+        const result = await api.getReviews(id);
+        return result.data;
+    };
 
-  const getEventByAddress = (address) => {
-    if (
-      events.filter((element) => {
-        return element.address == address;
-      }).length > 1
-    ) {
-      setSearchText(address);
-      setSelected(false);
-      setOpen(true);
-    } else {
-      getEvent(events.find((element) => element.address == address));
-    }
-  };
+    const getEventByAddress = async (address) => {
+        const result = events.filter((item) => {
+            return item.address === address;
+        })
+        if (
+            result.length > 1
+        ) {
+            setAddressText(address);
+            setShowEvent(false);
+            setOpen(true);
+        } else {
+            await getEvent(result[0]);
+        }
+    };
 
 
+    const searchEventsByName = async () => {
+        const events = await loadEventsByDescription();
+        const subscriptions = await loadSubscriptions();
+        const result = setPropertiesSubscribed(events, subscriptions);
+        const points = await drawPoints(result);
+        setPoints(points);
+    };
 
-  const getFilterData = () => {
-    if (!searchText) {
-      return events;
-    }
-    return events.filter((item) => {
-      return item["address"].includes(searchText);
-    });
-  };
+    const filterByAddress = () => {
+        if (!addressText) {
+            return events;
+        }
+        return events.filter((item) => {
+            return item.address.includes(addressText);
+        });
+    };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const filterEvents = filterByAddress();
+    const lastEventIndex = currentPage * eventsPerPage;
+    const firstEventIndex = lastEventIndex - eventsPerPage;
+    const currentEvent = filterEvents.slice(firstEventIndex, lastEventIndex);
 
-  const filtredEvents = getFilterData();
-  const lastEventIndex = currentPage * eventsPerPage;
-  const firstEventIndex = lastEventIndex - eventsPerPage;
-  const currentEvent = filtredEvents.slice(firstEventIndex, lastEventIndex);
-
-  useEffect(async () => {
-    const array = await loadEvents();
-    await loadSubscriptions(array);
-    const placemarks = await drawPlacemarks(array);
-    setPlacemarks(placemarks);
-  }, []);
-
-  return (
-    <div>
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <div className="main-page">
-          <div>
+    return (
+        <div className="home">
             <div className="map">
-            <YandexMap
-              placemarks={placemarks}
-              getEventByAddress={getEventByAddress}
-            />
+                <YandexMap
+                    points={points}
+                    getEventByAddress={getEventByAddress}
+                />
             </div>
             <div className={open ? "sidebar-1" : "closed-sidebar-1"}>
-              <div className="input-group">
-                <input
-                  type="search"
-                  className="form-control rounded"
-                  placeholder="Поиск событий по адресу"
-                  aria-label="Search"
-                  aria-describedby="search-addon"
-                  value={searchText}
-                  onChange={(e) => handleChangeSearchText(e)}
-                />
-                <button
-                  type="button"
-                  class="btn btn-outline-primary"
-                  onClick={getFilterData}
-                >
-                  Поиск
-                </button>
-              </div>
-              <div className="event-list">
-                <EventList
-                  events={currentEvent}
-                  loading={loading}
-                  getEvent={getEvent}
-                />
-                <Pagination
-                  eventsPerPage={eventsPerPage}
-                  totalEvents={filtredEvents.length}
-                  paginate={paginate}
-                />
-              </div>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Поиск событий"
+                        value={eventNameText}
+                        onChange={(e) => handleChangeSearchText(e)}
+                    />
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        onClick={searchEventsByName}
+                    >
+                        Поиск
+                    </button>
+                </div>
+                {events.length != 0 ? (
+                    <div className="event-list">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Адрес"
+                            value={addressText}
+                            onChange={(e) => handleChangeAddressText(e)}
+                        />
+                        <EventList
+                            events={currentEvent}
+                            loading={loading}
+                            getEvent={getEvent}
+                        />
+                        <Pagination
+                            eventsPerPage={eventsPerPage}
+                            totalEvents={filterEvents.length}
+                            paginate={paginate}
+                        />
+                    </div>
+                ) : (
+                    <div>
+                        <h2>Введите в поиск, что вас интересует.</h2>
+                    </div>
+                )}
             </div>
-            <div className={selected ? "sidebar-2" : "closed-sidebar-2"}>
-              <button
-                type="button"
-                className="btn-close show"
-                onClick={handleClickCloseSidebar}
-              ></button>
-              <div className="event-form">
-                <EventForm
-                  event={event}
-                  handleClickSubscribe={handleClickSubscribe}
-                  handleClickAddReview={handleClickAddReview}
+            <div className={showEvent ? "sidebar-2" : "closed-sidebar-2"}>
+                <button
+                    type="button"
+                    className="btn-close show"
+                    onClick={handleClickCloseSidebar}
                 />
-              </div>
+                <div className="event-form">
+                    <EventForm
+                        event={event}
+                        handleClickSubscribe={handleClickSubscribe}
+                        handleClickAddReview={handleClickAddReview}
+                    />
+                </div>
             </div>
             <button
-              type="button"
-              className={
-                open
-                  ? "btn btn-info show-sidebar-clicked"
-                  : "btn btn-info show-sidebar"
-              }
-              onClick={handleClickSidebar}
+                type="button"
+                className={
+                    open
+                        ? "btn btn-info show-sidebar-clicked"
+                        : "btn btn-info show-sidebar"
+                }
+                onClick={handleClickSidebar}
             >
-              Жмяк
+                Поиск
             </button>
-          </div>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default HomePage;

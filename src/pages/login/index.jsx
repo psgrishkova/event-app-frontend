@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import api from "../../service";
 import "./index.css";
 
-function Login() {
+function Login({setToken}) {
   const [login, setLogin] = useState("");
   const [loginDirty, setLoginDirty] = useState(false);
-  const [loginError, setLoginError] = useState("Логин не может быть пустым");
   const [pass, setPass] = useState("");
   const [PassDirty, setPassDirty] = useState(false);
-  const [PassError, setPassError] = useState("Пароль не может быть пустым");
   const [formValid, setFormValid] = useState(false);
+  const [loginError, setLoginError] = useState("Логин не может быть пустым");
+  const [PassError, setPassError] = useState("Пароль не может быть пустым");
 
   useEffect(() => {
     if (loginError || PassError) {
@@ -32,10 +32,9 @@ function Login() {
       localStorage.clear();
       const { data: loginData } = await api.endpoints.login(userJSON);
       console.log(loginData);
-
-      localStorage.setItem("token", loginData.token);
+      setToken(loginData.token);
       localStorage.setItem("user", JSON.stringify(loginData));
-
+      window.location.reload();
       window.location = "/home";
     } catch (e) {
       if (e.response.status === 500)
@@ -51,7 +50,7 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     console.log("Trying to log in...");
-    request(createJSON());
+    await request(createJSON());
   }
 
   const handleChangeLogin = (e) => {
@@ -84,7 +83,7 @@ function Login() {
           <h3>Войти</h3>
 
           <div className="form-group">
-            <label>Логин</label>
+            <label>Login</label>
             {loginDirty && loginError && (
               <div style={{ color: "red", fontSize: "10pt" }}>{loginError}</div>
             )}
@@ -92,7 +91,7 @@ function Login() {
               type="text"
               className="form-control"
               name="login"
-              placeholder="Логин"
+              placeholder="Login"
               onChange={handleChangeLogin}
               onBlur={(e) => blurHandler(e)}
               value={login}
@@ -100,7 +99,7 @@ function Login() {
           </div>
 
           <div className="form-group">
-            <label>Пароль</label>
+            <label>Password</label>
             {PassDirty && PassError && (
               <div style={{ color: "red", fontSize: "10pt" }}>{PassError}</div>
             )}
@@ -108,7 +107,7 @@ function Login() {
               type="password"
               className="form-control"
               name="password"
-              placeholder="Пароль"
+              placeholder="Password"
               onChange={handleChangePass}
               onBlur={(e) => blurHandler(e)}
               value={pass}

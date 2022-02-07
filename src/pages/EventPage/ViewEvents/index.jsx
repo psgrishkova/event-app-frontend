@@ -1,6 +1,8 @@
-import React, { createElement, useEffect, useState } from "react";
+import React, {createElement, useEffect, useState} from "react";
 import api from "../../../service";
 import "./index.css";
+import Moment from 'moment';
+
 export default function ViewDefEvents() {
     const [res, setRes] = useState([]);
     const role = JSON.parse(localStorage.getItem('user')).role
@@ -21,7 +23,7 @@ export default function ViewDefEvents() {
         await api.endpoints.unsubscribe(id);
         console.log('Пользователь отписался от события')
     };
-    
+
     async function createEvent(id) {
         await api.endpoints.createEvent(id);
         console.log('Событие сохранено')
@@ -57,82 +59,93 @@ export default function ViewDefEvents() {
     function editForm() {
         return (
             <div style={{
-                position: 'absolute', borderRadius: '7px', padding: '10px', margin: '10px', color: 'white',
+                position: 'fixed', borderRadius: '7px', padding: '10px', margin: '-90px', color: 'white',
                 width: '50%',
-                align: 'center',
                 backgroundColor: 'rgba(0,0,0,0.8)',
                 zIndex: '10'
-            }} >
+            }}>
                 <form onSubmit={handleSubmitChanges}>
                     <h3>Форма изменения события</h3>
                     <p>Название события: <input
                         name='eventName'
                         type="text"
                         className="form-control"
-                        style={{ color: '#1c8ef9' }}
-                        onChange={(e) => { seteventName(e.target.value) }}
+                        style={{color: '#1c8ef9'}}
+                        onChange={(e) => {
+                            seteventName(e.target.value)
+                        }}
                         value={eventName}
-                        required = {true}
+                        required={true}
                     /></p>
                     <p>Описание: <input
                         name='description'
                         type="text"
                         className="form-control"
-                        style={{ color: '#1c8ef9' }}
-                        onChange={(e) => { setdescription(e.target.value) }}
+                        style={{color: '#1c8ef9'}}
+                        onChange={(e) => {
+                            setdescription(e.target.value)
+                        }}
                         value={description}
-                        required = {true}
+                        required={true}
                     />
                     </p>
                     <p>Адрес: <input
                         name='address'
                         type="text"
                         className="form-control"
-                        style={{ color: '#1c8ef9' }}
-                        onChange={(e) => { setAddress(e.target.value) }}
+                        style={{color: '#1c8ef9'}}
+                        onChange={(e) => {
+                            setAddress(e.target.value)
+                        }}
                         value={address}
-                        required = {true}
+                        required={true}
                     /></p>
                     <p>Возрастной цензор: <input
                         name='ageCensor'
                         type="text"
                         className="form-control"
-                        style={{ color: '#1c8ef9' }}
-                        onChange={(e) => { setageCensor(e.target.value) }}
-                        value={ageCensor} 
-                        required = {true}
+                        style={{color: '#1c8ef9'}}
+                        onChange={(e) => {
+                            setageCensor(e.target.value)
+                        }}
+                        value={ageCensor}
+                        required={true}
                     /></p>
                     <p>Дата начала: <input
                         name='startDate'
                         type="datetime-local"
                         className="form-control"
-                        style={{ color: '#1c8ef9' }}
-                        onChange={(e) => { setstartDate(e.target.value) }}
+                        style={{color: '#1c8ef9'}}
+                        onChange={(e) => {
+                            setstartDate(e.target.value)
+                        }}
                         value={startDate}
-                        required = {true}
+                        required={true}
                     /></p>
                     <p>Дата окончания: <input
                         name='endDate'
                         type="datetime-local"
                         className="form-control"
-                        style={{ color: '#1c8ef9' }}
-                        onChange={(e) => { setendDate(e.target.value) }}
+                        style={{color: '#1c8ef9'}}
+                        onChange={(e) => {
+                            setendDate(e.target.value)
+                        }}
                         value={endDate}
-                        required = {true}
+                        required={true}
                     /></p>
                     <p>Понравилось: {likeCounter}</p>
-                    <button style={{ marginRight: '20px' }} className="btn btn-primary" type="Submit">Сохранить</button>
+                    <button style={{marginRight: '20px'}} className="btn btn-primary" type="Submit">Сохранить</button>
                     <button className="btn btn-primary" type="Button" onClick={(e) => {
                         e.preventDefault();
                         setVisible(false);
                         setEvent(null);
-                    }}>Отмена</button>
+                    }}>Отмена
+                    </button>
                 </form>
             </div>
         )
     }
 
-    
 
     function handleSubmitChanges() {
         const newEvent = {
@@ -153,55 +166,67 @@ export default function ViewDefEvents() {
     }
 
     const [event, setEvent] = useState();
-     function handleChangeButton(e, i) {
+
+    function handleChangeButton(e, i) {
         e.preventDefault();
         setEvent(i);
         console.log(event);
-
         seteventName(event.eventName);
         setdescription(event.description);
         setAddress(event.address);
         setageCensor(event.ageCensor);
         setstartDate(event.startDate);
         setendDate(event.endDate);
-
         setlikeCounter(event.likeCounter);
-
         setVisible(true);
     }
 
     return (
-        <div className="auth-inner">
-            <div>
-                <p style={{ color: '#1c8ef9' }}>События
-                    {role === 'USER_BUSINESS' && <button onClick={(e)=>{window.location='/createEvent';}} type="button" style={{ marginLeft: "100px" }} className="btn btn-primary">Создать событие</button>}
-                </p>
-                {visible && editForm(event)}
-                <ul>
-                    {res.map(item => (
-                        <div style={{ backgroundColor: '#1c8ef96f', borderRadius: '7px', padding: '10px', margin: '10px', color: 'white' }} >
-                            <form onSubmit={e => handleSubmit(e, item.id)}>
-                                <li key={item.id}>
-                                    <p>Название события: {item.eventName}</p>
-                                    <p>Описание: {item.description}</p>
-                                    <p>Адрес: {item.address}</p>
-                                    <p>Возрастной цензор: {item.ageCensor}</p>
-                                    <p>Дата начала: {item.startDate}</p>
-                                    <p>Дата окончания: {item.endDate}</p>
-                                    <p>Понравилось: {item.likeCounter}</p>
-
-                                    {role === 'USER_DEFAULT' ?
-                                        <button type="submit" className="btn btn-primary">Отписаться</button> :
-                                        <div>
-                                            <button disabled={visible} type="Button" onClick={(e) => handleChangeButton(e, item)} className="btn btn-primary" style={{ marginRight: '100px' }}>Изменить</button>
-                                            <button disabled={visible} type="submit" className="btn btn-primary" style={{ margin: '1px' }}>Удалить</button>
-                                        </div>
-                                    }
-                                </li>
-                            </form>
-                        </div>
-                    ))}
-                </ul>
+        <div className="auth-wrapper">
+            <div className="auth-inner">
+                <div>
+                    <h2 style={{color: '#1c8ef9'}}>Мои события:
+                    </h2>
+                    {visible && editForm(event)}
+                    <ul>
+                        {res.map(item => (
+                            <div style={{
+                                backgroundColor: '#1c8ef96f',
+                                borderRadius: '7px',
+                                padding: '10px',
+                                margin: '10px',
+                                color: 'black',
+                            }}>
+                                <form onSubmit={e => handleSubmit(e, item.id)}>
+                                    <li key={item.id}>
+                                        <strong>
+                                        <p><strong>Название события:</strong> {item.eventName}</p>
+                                        <p><strong>Описание:</strong> {item.description}</p>
+                                        <p><strong> Адрес:</strong> {item.address}</p>
+                                        <p><strong> Возрастной цензор: </strong>{item.ageCensor}</p>
+                                            <p><strong>Дата начала:</strong> {Moment(item.startDate).format('YYYY/MM/DD HH:mm')}</p>
+                                        <p><strong>Дата окончания:</strong> {Moment(item.endDate).format('YYYY/MM/DD HH:mm')}</p>
+                                        <p><strong>Понравилось:</strong> {item.likeCounter}</p>
+                                        </strong>
+                                        {role === 'USER_DEFAULT' ?
+                                            <button type="submit" className="btn btn-primary">Отписаться</button> :
+                                            <div style={{justifyContent: 'space-between'}}>
+                                                <button disabled={visible} type="Button"
+                                                        onClick={(e) => handleChangeButton(e, item)}
+                                                        className="btn btn-primary"
+                                                        style={{marginRight: '200px'}}>Изменить
+                                                </button>
+                                                <button disabled={visible} type="submit" className="btn btn-primary"
+                                                        style={{margin: '1px'}}>Удалить
+                                                </button>
+                                            </div>
+                                        }
+                                    </li>
+                                </form>
+                            </div>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     )
